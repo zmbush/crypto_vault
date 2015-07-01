@@ -1,6 +1,6 @@
 use rustc_serialize::{json, Decodable, Encodable};
 use rustc_serialize::base64::{self, ToBase64, FromBase64};
-use std::fmt::{Debug, Display};
+use std::fmt::Debug;
 use std::str::FromStr;
 
 use error::{VaultError, VResult};
@@ -9,8 +9,6 @@ use crypto::{encrypt, decrypt, gen_bytes, derive_key};
 /// Stores the data in an encrypted format. The only information
 /// needed to decrypt the data should be the password.
 pub struct RawVault {
-    /// This is printed as the first line of the Vault::to_string
-    pub header: String,
     /// The raw encrypted data
     pub data: Vec<u8>,
 
@@ -21,8 +19,7 @@ pub struct RawVault {
 impl ToString for RawVault {
     fn to_string(&self) -> String {
         format!(
-            "{}\n{}\n{}\n{}",
-            self.header,
+            "{}\n{}\n{}",
             self.salt.to_base64(base64::STANDARD),
             self.iv.to_base64(base64::STANDARD),
             self.data.to_base64(base64::Config { newline: base64::Newline::LF, .. base64::MIME })
@@ -35,7 +32,6 @@ impl FromStr for RawVault {
     fn from_str(s: &str) -> VResult<RawVault> {
         let mut lines = s.lines_any();
         Ok(RawVault {
-            header: lines.next().unwrap_or_default().to_owned(),
             salt: try!(lines.next().unwrap_or_default().from_base64()),
             iv: try!(lines.next().unwrap_or_default().from_base64()),
             data: try!(lines.fold("".to_owned(), |acc, item| format!("{}{}", acc, item)).from_base64())
@@ -50,7 +46,6 @@ impl RawVault {
         let decrypted = decrypt(&master_key, &self.iv, &self.data);
 
         Ok(Vault {
-            header: self.header.clone(),
             key_info: Some(KeyInfo {
                 master_key: master_key,
                 salt: self.salt.clone()
@@ -69,8 +64,6 @@ struct KeyInfo {
 /// Stores the decrypted data. May have the master key and salt for encryption.
 #[derive(Debug)]
 pub struct Vault<T: Decodable + Encodable + Debug> {
-    /// Same as for RawVault. This is printed at the top of the encrypted store file.
-    pub header: String,
     /// The decrypted data
     pub objects: Vec<T>,
 
@@ -105,7 +98,6 @@ impl<T: Decodable + Encodable + Debug> Vault<T> {
         };
         let (iv, data) = encrypt(&master_key, &json::as_json(&self.objects).to_string());
         Ok(RawVault {
-            header: self.header.clone(),
             iv: iv,
             salt: salt.clone(),
             data: data
@@ -115,17 +107,8 @@ impl<T: Decodable + Encodable + Debug> Vault<T> {
     /// Constructor function
     pub fn new() -> Vault<T> {
         Vault {
-            header: "crypto_vault v1.0 https://github.com/zmbush/crypto_vault".to_owned(),
             key_info: None,
             objects: Vec::new()
-        }
-    }
-
-    /// Constructor with a custom header
-    pub fn with_header<D>(h: D) -> Vault<T> where D: Display {
-        Vault {
-            header: format!("{}", h),
-            .. Vault::new()
         }
     }
 }
