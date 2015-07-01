@@ -5,6 +5,7 @@ authors = ["Zachary Bush <zach@zmbush.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/zmbush/crypto_vault"
+documentation = "https://zmbush.github.io/crypto_vault/crypto_vault"
 description = "A simple library for an encrypted vault of objects"
 keywords = ["cryptography", "encrypt", "decrypt", "vault", "password"]
 
