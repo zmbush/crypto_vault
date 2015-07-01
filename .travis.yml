@@ -1,15 +1,11 @@
 language: rust
-sudo: required
 rust: nightly
-
 script:
-  - cargo build --verbose
-  - cargo test --verbose
-  - cargo doc
-
+- cargo build --verbose
+- cargo test --verbose
+- cargo doc
 after_script:
-  - cd target; curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
-
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy-docs.sh
 env:
   global:
-    - secure: lnjK7UZppTbSAksdGe17sR4J2qkJlJ3fD2z3aRUGNXzEMnABuj5zOhPLsfsl7pld6HL4VEltMNqz7dv0R8EsFNSYOT7WIppyMcE6VGgw8YXXDJtn/LISAw7nSmpqBDSgP1TpufaOvzmnXFbuXG1h5qPdYolv7J4opjROH8cUPyz2hTQ9c7LpTHBtG+RjcxygOq2fBDhwj9vTxxDVnbyZNTeFPC/uifZaoGIaVefY0RlKmjKb6kJG/4zm+SYyKAduyviZf0rMbySBUWylHnMbywbqDCRGfRvKlMyNkbV0uAxTpCKZDzfiV3PcK5IiJqw4GPYMQVeHP1uWYPzVwHLHzZsSbtVvl33dPgw6S7pP8ZhTOkiu//G+gvIAZaBcsMznq2GJZoqDrZaSzpYVP/BTBiYiicyTzRrZlR8hB5pFeHjdaQZQRkrB9aFuibjwvn9vFYDKNbzXqjiqzpHODTEXMtsPhg6idvsp9lzVHoqZXOKCU6SG0Ex0aEcyrq8iEazKXtBQnKqmQyTOW9Vyb+WbgMeObgjyCs2of60rDsUwAvKa/KcR113XIC6m4KehmH17c18lgGCIS7Um8YxhFCs8f2diJUK67wt5Ze6nnSYuPKg7ynV/ER/FN8Iw2/kjwfkqwDgBrQ8fbOCAOxC0mw0QIs8U/dqBaoDRgx1NT5JgBhM=
+    secure: ThKJkW8pemD1NIV0sNJH6NwVZWKGI7Zo+cVE2Qb2FC7BHeEV6EEAzXJBmYdUS10Ce+vT2iyJ59TARnO+XfDJvKPZrztOzTjy8pgREiUpDm0ASV+4LbO104OoB2PYxqLTE3/SJtymLDQa8wCFqa3XPUEjpmB7yK+WaApWZ0vjpqdBzFnVeSKKKe2/ayxSeIoeaUCDETxquGyJd5ls/jB5aaQTdEIIv336Z1pIn59B76oH5JS+qrsutAltfRDsMV3cL7EL2tqLQm6zIQ/iBD8mOI2TvoLn6rIliw7U/y+hIvKZRhk4W90IcaxdyY+oJoTB1ZRWSXSbyiXuAOQ/ap431gripgVSgNuqqOLVNkYkzLAvAjBBKvIyP/JyijS7Pa340DjKrZRRhN0DpnJjKacrXxTd/GtnJoFQFzgUkkNu67zGzOBcODlDcvr6pYJlc6PUt/1KRpVJjl5RzTohsN1Qbzv+sbhWXUHnSdiSI2TFLnQDocaYKNLu8u0y6I24wQnDUoYC7KuflQFXtNQuZeugVGcS4fgxlo+pGe66+AaEq3OdBcCzIsb700zuZycNEB8irgAhK2zo7Ms5DXCdUmLQzfrhL7cYMHXDLXrKAX4YXQMz6RoPtICa5Cvb5ign3/8NK1tsPjvqvPMUOdfnCe5sxILRtLBqi0SL3gQ0X5YnaNU=
