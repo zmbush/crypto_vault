@@ -1,14 +1,14 @@
 [package]
 name = "crypto_vault"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["Zachary Bush <zach@zmbush.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/zmbush/crypto_vault"
-keywords = ["cryptography", "vault", "password", "pbkdf2", "AES"]
+description = "A simple library for an encrypted vault of objects"
+keywords = ["cryptography", "encrypt", "decrypt", "crypto", "vault", "password"]
 
 [dependencies]
 openssl = "*"
 rand = "*"
 rustc-serialize = "*"
-# clippy = "*"
