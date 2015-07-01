@@ -24,8 +24,8 @@
 //! }
 //! ```
 #![feature(vec_push_all, plugin)]
-#![plugin(regex_macros, clippy)]
-#![deny(missing_docs, bad_style, unused, clippy)]
+#![plugin(regex_macros)]
+#![deny(missing_docs, bad_style, unused)]
 
 extern crate openssl;
 extern crate rand;
