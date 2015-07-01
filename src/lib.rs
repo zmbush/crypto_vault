@@ -1,4 +1,6 @@
-//! A simple vault for storing encrypted data
+//! A simple vault for storing encrypted data.
+//!
+//! View the project on [Github](https://github.com/zmbush/crypto_vault).
 //!
 //! # Usage
 //!
