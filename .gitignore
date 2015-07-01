@@ -17,3 +17,6 @@
 
 # Racer
 *.racertmp
+
+# It's a library
+Cargo.lock
