@@ -24,12 +24,10 @@
 //! }
 //! ```
 #![feature(vec_push_all, plugin)]
-#![plugin(regex_macros)]
 #![deny(missing_docs, bad_style, unused)]
 
 extern crate openssl;
 extern crate rand;
-extern crate regex;
 extern crate rustc_serialize;
 
 #[macro_use] mod macros;
