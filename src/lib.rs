@@ -9,7 +9,7 @@
 //! extern crate crypto_vault;
 //!
 //! use rustc_serialize::{Decoder, Encoder};
-//! use crypto_vault::{Vault, RawVault};
+//! use crypto_vault::{Vault, RawVault, DecryptVault};
 //! use std::str::FromStr;
 //!
 //! #[derive(RustcEncodable, RustcDecodable, Debug)]
@@ -21,8 +21,17 @@
 //!     let mut vault = Vault::new().with_password("foo");
 //!     vault.objects.push(Obj { key: "bar".to_owned() });
 //!     let vault_str = vault.encrypt().unwrap().to_string();
-//!     let new_vault: Vault<Obj> = RawVault::from_str(&vault_str).unwrap().decrypt("foo").unwrap();
-//!     assert_eq!(new_vault.objects[0].key, "bar".to_owned());
+//!
+//!     // The long way
+//!     let new_vault1: Vault<Obj> = RawVault::from_str(&vault_str)
+//!         .unwrap()
+//!         .decrypt("foo")
+//!         .unwrap();
+//!     assert_eq!(new_vault1.objects[0].key, "bar".to_owned());
+//!
+//!     // The short way
+//!     let new_vault2: Vault<Obj> = vault_str.decrypt_vault("foo").unwrap();
+//!     assert_eq!(new_vault2.objects[0].key, "bar".to_owned());
 //! }
 //! ```
 #![feature(vec_push_all, plugin)]

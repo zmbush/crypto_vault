@@ -6,6 +6,10 @@ use std::str::FromStr;
 use error::{VaultError, VResult};
 use crypto::{encrypt, decrypt, gen_bytes, derive_key};
 
+/// An alias type for Decodable + Encodable + Debug
+pub trait VaultObject: Decodable + Encodable + Debug {}
+impl<T: Decodable + Encodable + Debug> VaultObject for T {}
+
 /// Stores the data in an encrypted format. The only information
 /// needed to decrypt the data should be the password.
 pub struct RawVault {
@@ -41,7 +45,7 @@ impl FromStr for RawVault {
 
 impl RawVault {
     /// Decrypts the data into a Vault
-    pub fn decrypt<T>(&self, password: &str) -> VResult<Vault<T>> where T: Decodable + Encodable + Debug {
+    pub fn decrypt<T>(&self, password: &str) -> VResult<Vault<T>> where T: VaultObject {
         let master_key = derive_key(&password, &self.salt);
         let decrypted = decrypt(&master_key, &self.iv, &self.data);
 
@@ -63,14 +67,14 @@ struct KeyInfo {
 
 /// Stores the decrypted data. May have the master key and salt for encryption.
 #[derive(Debug)]
-pub struct Vault<T: Decodable + Encodable + Debug> {
+pub struct Vault<T: VaultObject> {
     /// The decrypted data
     pub objects: Vec<T>,
 
     key_info: Option<KeyInfo>,
 }
 
-impl<T: Decodable + Encodable + Debug> Vault<T> {
+impl<T: VaultObject> Vault<T> {
     /// Sets the password. Overrides previous password.
     pub fn set_password(&mut self, password: &str) {
         let salt = gen_bytes();
@@ -113,8 +117,21 @@ impl<T: Decodable + Encodable + Debug> Vault<T> {
     }
 }
 
-impl<T: Decodable + Encodable + Debug> Default for Vault<T> {
+impl<T: VaultObject> Default for Vault<T> {
     fn default() -> Vault<T> {
         Vault::new()
+    }
+}
+
+/// Helper methods for decrypting objects
+pub trait DecryptVault {
+    /// Convenience method to decrypt a string directly to a `Vault`
+    fn decrypt_vault<T>(&self, password: &str) -> VResult<Vault<T>> where T: VaultObject;
+}
+
+impl<S: Into<String> + Clone> DecryptVault for S {
+    fn decrypt_vault<T>(&self, password: &str) -> VResult<Vault<T>> where T: VaultObject {
+        let raw = try!(RawVault::from_str(&self.clone().into()));
+        Ok(try!(raw.decrypt(password)))
     }
 }
