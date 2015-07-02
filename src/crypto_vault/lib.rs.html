@@ -81,6 +81,15 @@
 <span id="39">39</span>
 <span id="40">40</span>
 <span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! A simple vault for storing encrypted data.</span>
 <span class='doccomment'>//!</span>
@@ -93,7 +102,7 @@
 <span class='doccomment'>//! extern crate crypto_vault;</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! use rustc_serialize::{Decoder, Encoder};</span>
-<span class='doccomment'>//! use crypto_vault::{Vault, RawVault};</span>
+<span class='doccomment'>//! use crypto_vault::{Vault, RawVault, DecryptVault};</span>
 <span class='doccomment'>//! use std::str::FromStr;</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! #[derive(RustcEncodable, RustcDecodable, Debug)]</span>
@@ -105,8 +114,17 @@
 <span class='doccomment'>//!     let mut vault = Vault::new().with_password(&quot;foo&quot;);</span>
 <span class='doccomment'>//!     vault.objects.push(Obj { key: &quot;bar&quot;.to_owned() });</span>
 <span class='doccomment'>//!     let vault_str = vault.encrypt().unwrap().to_string();</span>
-<span class='doccomment'>//!     let new_vault: Vault&lt;Obj&gt; = RawVault::from_str(&amp;vault_str).unwrap().decrypt(&quot;foo&quot;).unwrap();</span>
-<span class='doccomment'>//!     assert_eq!(new_vault.objects[0].key, &quot;bar&quot;.to_owned());</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!     // The long way</span>
+<span class='doccomment'>//!     let new_vault1: Vault&lt;Obj&gt; = RawVault::from_str(&amp;vault_str)</span>
+<span class='doccomment'>//!         .unwrap()</span>
+<span class='doccomment'>//!         .decrypt(&quot;foo&quot;)</span>
+<span class='doccomment'>//!         .unwrap();</span>
+<span class='doccomment'>//!     assert_eq!(new_vault1.objects[0].key, &quot;bar&quot;.to_owned());</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//!     // The short way</span>
+<span class='doccomment'>//!     let new_vault2: Vault&lt;Obj&gt; = vault_str.decrypt_vault(&quot;foo&quot;).unwrap();</span>
+<span class='doccomment'>//!     assert_eq!(new_vault2.objects[0].key, &quot;bar&quot;.to_owned());</span>
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>vec_push_all</span>, <span class='ident'>plugin</span>)]</span>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `VResult` type in crate `crypto_vault`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, VResult">
+    <meta name="description" content="API documentation for the Rust `DecryptVault` trait in crate `crypto_vault`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DecryptVault">
 
-    <title>crypto_vault::VResult - Rust</title>
+    <title>crypto_vault::DecryptVault - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>crypto_vault</a></p><script>window.sidebarCurrent = {name: 'VResult', ty: 'type', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <p class='location'><a href='index.html'>crypto_vault</a></p><script>window.sidebarCurrent = {name: 'DecryptVault', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </section>
 
     <nav class="sub">
@@ -40,14 +40,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content type">
-<h1 class='fqn'><span class='in-band'><a href='index.html'>crypto_vault</a>::<wbr><a class='type' href=''>VResult</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>crypto_vault</a>::<wbr><a class='trait' href=''>DecryptVault</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-894' class='srclink' href='../src/crypto_vault/error.rs.html#19' title='goto source code'>[src]</a></span></h1>
-<pre class='rust typedef'>type VResult&lt;T&gt; = <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;T, <a class='enum' href='../crypto_vault/enum.VaultError.html' title='crypto_vault::VaultError'>VaultError</a>&gt;;</pre><div class='docblock'><p>Convenience type for VaultError functions</p>
-</div></section>
+        </span><a id='src-734' class='srclink' href='../src/crypto_vault/vault.rs.html#127-130' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait DecryptVault {
+    fn <a href='#tymethod.decrypt_vault' class='fnname'>decrypt_vault</a>&lt;T&gt;(&amp;self, password: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../crypto_vault/type.VResult.html' title='crypto_vault::VResult'>VResult</a>&lt;<a class='struct' href='../crypto_vault/struct.Vault.html' title='crypto_vault::Vault'>Vault</a>&lt;T&gt;&gt; <span class='where'>where T: <a class='trait' href='../crypto_vault/trait.VaultObject.html' title='crypto_vault::VaultObject'>VaultObject</a></span>;
+}</pre><div class='docblock'><p>Helper methods for decrypting objects</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.decrypt_vault' class='method stab '><code>fn <a href='#tymethod.decrypt_vault' class='fnname'>decrypt_vault</a>&lt;T&gt;(&amp;self, password: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='type' href='../crypto_vault/type.VResult.html' title='crypto_vault::VResult'>VResult</a>&lt;<a class='struct' href='../crypto_vault/struct.Vault.html' title='crypto_vault::Vault'>Vault</a>&lt;T&gt;&gt; <span class='where'>where T: <a class='trait' href='../crypto_vault/trait.VaultObject.html' title='crypto_vault::VaultObject'>VaultObject</a></span></code></h3><div class='docblock'><p>Convenience method to decrypt a string directly to a <code>Vault</code></p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    </ul><script type="text/javascript" async
+                              src="../implementors/crypto_vault/trait.DecryptVault.js">
+                      </script></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

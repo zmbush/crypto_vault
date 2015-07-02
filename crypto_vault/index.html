@@ -45,7 +45,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-0' class='srclink' href='../src/crypto_vault/lib.rs.html#1-41' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-0' class='srclink' href='../src/crypto_vault/lib.rs.html#1-50' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A simple vault for storing encrypted data.</p>
 
 <p>View the project on <a href="https://github.com/zmbush/crypto_vault">Github</a>.</p>
@@ -56,7 +56,7 @@
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>crypto_vault</span>;
 
 <span class='kw'>use</span> <span class='ident'>rustc_serialize</span>::{<span class='ident'>Decoder</span>, <span class='ident'>Encoder</span>};
-<span class='kw'>use</span> <span class='ident'>crypto_vault</span>::{<span class='ident'>Vault</span>, <span class='ident'>RawVault</span>};
+<span class='kw'>use</span> <span class='ident'>crypto_vault</span>::{<span class='ident'>Vault</span>, <span class='ident'>RawVault</span>, <span class='ident'>DecryptVault</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>FromStr</span>;
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>RustcEncodable</span>, <span class='ident'>RustcDecodable</span>, <span class='ident'>Debug</span>)]</span>
@@ -68,8 +68,17 @@
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vault</span> <span class='op'>=</span> <span class='ident'>Vault</span>::<span class='ident'>new</span>().<span class='ident'>with_password</span>(<span class='string'>&quot;foo&quot;</span>);
     <span class='ident'>vault</span>.<span class='ident'>objects</span>.<span class='ident'>push</span>(<span class='ident'>Obj</span> { <span class='ident'>key</span>: <span class='string'>&quot;bar&quot;</span>.<span class='ident'>to_owned</span>() });
     <span class='kw'>let</span> <span class='ident'>vault_str</span> <span class='op'>=</span> <span class='ident'>vault</span>.<span class='ident'>encrypt</span>().<span class='ident'>unwrap</span>().<span class='ident'>to_string</span>();
-    <span class='kw'>let</span> <span class='ident'>new_vault</span>: <span class='ident'>Vault</span><span class='op'>&lt;</span><span class='ident'>Obj</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>RawVault</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>vault_str</span>).<span class='ident'>unwrap</span>().<span class='ident'>decrypt</span>(<span class='string'>&quot;foo&quot;</span>).<span class='ident'>unwrap</span>();
-    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>new_vault</span>.<span class='ident'>objects</span>[<span class='number'>0</span>].<span class='ident'>key</span>, <span class='string'>&quot;bar&quot;</span>.<span class='ident'>to_owned</span>());
+
+    <span class='comment'>// The long way</span>
+    <span class='kw'>let</span> <span class='ident'>new_vault1</span>: <span class='ident'>Vault</span><span class='op'>&lt;</span><span class='ident'>Obj</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>RawVault</span>::<span class='ident'>from_str</span>(<span class='kw-2'>&amp;</span><span class='ident'>vault_str</span>)
+        .<span class='ident'>unwrap</span>()
+        .<span class='ident'>decrypt</span>(<span class='string'>&quot;foo&quot;</span>)
+        .<span class='ident'>unwrap</span>();
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>new_vault1</span>.<span class='ident'>objects</span>[<span class='number'>0</span>].<span class='ident'>key</span>, <span class='string'>&quot;bar&quot;</span>.<span class='ident'>to_owned</span>());
+
+    <span class='comment'>// The short way</span>
+    <span class='kw'>let</span> <span class='ident'>new_vault2</span>: <span class='ident'>Vault</span><span class='op'>&lt;</span><span class='ident'>Obj</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>vault_str</span>.<span class='ident'>decrypt_vault</span>(<span class='string'>&quot;foo&quot;</span>).<span class='ident'>unwrap</span>();
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>new_vault2</span>.<span class='ident'>objects</span>[<span class='number'>0</span>].<span class='ident'>key</span>, <span class='string'>&quot;bar&quot;</span>.<span class='ident'>to_owned</span>());
 }
 </pre>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -99,6 +108,25 @@ needed to decrypt the data should be the password.</p>
                                title='crypto_vault::VaultError'>VaultError</a></td>
                         <td class='docblock short'>
                              <p>Various errors for vault operations</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.DecryptVault.html'
+                               title='crypto_vault::DecryptVault'>DecryptVault</a></td>
+                        <td class='docblock short'>
+                             <p>Helper methods for decrypting objects</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.VaultObject.html'
+                               title='crypto_vault::VaultObject'>VaultObject</a></td>
+                        <td class='docblock short'>
+                             <p>An alias type for Decodable + Encodable + Debug</p>
 
                         </td>
                     </tr>
