@@ -1,6 +1,6 @@
 [package]
 name = "crypto_vault"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Zachary Bush <zach@zmbush.com>"]
 license = "MIT"
 readme = "README.md"
